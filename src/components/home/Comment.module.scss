@@ -1,0 +1,120 @@
+//
+@use "../../styles/abstract/mixins" as *;
+@use "../../styles/abstract/colors" as *;
+
+.container {
+  width: 100%;
+  border-radius: 1rem;
+  @include flexRow;
+
+  .user__img {
+    align-self: stretch;
+    @include flexRow;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 2rem;
+
+    .user__vertical {
+      position: absolute;
+      width: 0.2rem;
+      height: calc(100% - 4rem);
+      margin-top: 4rem;
+      background-color: #ebd03be5;
+    }
+    .user__horizontal {
+      background-color: #ebd03be5;
+      position: absolute;
+      bottom: 0;
+      width: 50%;
+      height: 0.2rem;
+      transform: translateX(50%);
+    }
+
+    .image__box {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 5rem;
+      overflow: hidden;
+      z-index: 1;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 0.4rem 1rem;
+    background-color: $opacity-10;
+    margin-left: 1rem;
+
+    .content__header {
+      width: 100%;
+      @include flexRow;
+      justify-content: flex-start;
+
+      .user {
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .date {
+        flex: 1;
+        text-align: right;
+        font-size: 1.2rem;
+      }
+    }
+
+    p {
+      width: 100%;
+      text-align: left;
+    }
+
+    .content__footer {
+      @include flexRow;
+
+      .footer__btns {
+        @include flexRow;
+        gap: 1rem;
+
+        .footer__btn {
+          @include flexRow;
+          width: 3rem;
+          height: 3rem;
+          border-radius: 4rem;
+          cursor: pointer;
+          transition: all 0.5s ease;
+        }
+      }
+
+      p {
+        font-size: 1.4rem;
+        cursor: pointer;
+        // margin-right: 2rem;
+        padding: 0 1rem;
+        border-radius: 1rem;
+        transition: all 0.5s ease;
+      }
+      p:hover {
+        background-color: $opacity-10;
+      }
+    }
+
+    .replies {
+      width: 100%;
+      transform: scale(0);
+      transition: all 1s ease;
+    }
+  }
+}
+
+// @keyframes scale-up {
+//   from {
+//     scale: 0;
+//   }
+//   to {
+//     scale: 1;
+//   }
+// }

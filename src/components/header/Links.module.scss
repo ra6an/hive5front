@@ -1,0 +1,11 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexRow;
+}
+
+.inner__container {
+  @include flexRow;
+  gap: 1rem;
+}

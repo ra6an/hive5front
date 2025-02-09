@@ -1,0 +1,34 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  width: 100%;
+  border-radius: 1rem;
+  @include flexColumn;
+
+  .body {
+    width: 100%;
+    @include flexColumn;
+    text-transform: none;
+    text-decoration: none;
+
+    .content {
+      width: 100%;
+      padding: 0.4rem 1rem;
+      text-align: start;
+    }
+
+    .image__box {
+      width: 100%;
+      height: 40rem;
+
+      .image {
+        width: 100%;
+        height: 100%;
+        background-size: 100% auto;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}

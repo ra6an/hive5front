@@ -1,0 +1,116 @@
+@use "../abstract/colors" as *;
+
+body {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.light {
+  .primary-bg {
+    background-color: $primary-color-light !important;
+    color: $primary-c-color-light !important;
+  }
+
+  .active__btn {
+    background-color: $primary-bg-color-light !important;
+  }
+
+  .auth-btn {
+    background-color: $auth-btn-bg-color-light !important;
+    color: $auth-btn-text-color-light !important;
+    transition: all 0.3s ease;
+  }
+  .auth-btn:hover {
+    background-color: $auth-btn-bg-hover-color-light !important;
+  }
+
+  .text {
+    color: $primary-text-color-light;
+    font-size: 1.6rem;
+  }
+
+  .border-color {
+    border-color: $primary-bg-color-light !important;
+  }
+
+  .background {
+    background-color: $primary-bg-color-light;
+  }
+
+  header {
+    background-color: $primary-header-bg-color-light;
+  }
+
+  .links {
+    color: $primary-icon-color-light !important;
+    transition: all 0.3 ease !important;
+  }
+  .links:hover {
+    color: $primary-icon-hover-color-light !important;
+    background-color: $primary-bg-color-light !important;
+  }
+
+  .post {
+    background-color: $primary-post-bg-color-light !important;
+
+    .date {
+      color: $primary-date-color-light !important;
+    }
+  }
+}
+
+.dark {
+  .primary-bg {
+    background-color: $primary-color-dark !important;
+    color: $primary-c-color-dark !important;
+  }
+
+  .active__btn {
+    background-color: $primary-bg-color-dark !important;
+  }
+
+  .auth-btn {
+    background-color: $auth-btn-bg-color-dark !important;
+    color: $auth-btn-text-color-dark !important;
+    transition: all 0.3s ease;
+  }
+
+  .auth-btn:hover {
+    background-color: $auth-btn-bg-hover-color-dark !important;
+  }
+
+  .text {
+    color: $primary-text-color-dark;
+    font-size: 1.6rem;
+  }
+
+  .border-color {
+    border-color: $primary-post-bg-color-dark !important;
+  }
+
+  .background {
+    background-color: $primary-bg-color-dark;
+  }
+
+  header {
+    background-color: $primary-header-bg-color-dark;
+  }
+
+  .links {
+    color: $primary-icon-color-dark;
+    transition: all 0.3 ease !important;
+  }
+  .links:hover {
+    color: $primary-icon-hover-color-dark !important;
+    background-color: $primary-bg-color-dark !important;
+  }
+
+  .post {
+    background-color: $primary-post-bg-color-dark !important;
+
+    .date {
+      color: $primary-date-color-dark !important;
+    }
+  }
+}

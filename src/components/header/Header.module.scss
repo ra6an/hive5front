@@ -1,0 +1,9 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  padding: 0 4rem;
+  width: 100%;
+  height: 6rem;
+  @include flexRowSB;
+}

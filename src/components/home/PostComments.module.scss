@@ -1,0 +1,10 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  padding: 1rem 2rem 2rem 2rem;
+  width: 100%;
+  border-radius: 1rem;
+  @include flexColumn;
+  gap: 1rem;
+}

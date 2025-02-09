@@ -1,0 +1,16 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  width: calc(100% - 0.8rem);
+  height: 4.2rem;
+  border-radius: 0.6rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  border: none;
+  @include flexRow;
+  cursor: pointer;
+}
