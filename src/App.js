@@ -20,7 +20,7 @@ import usePostsHook from "./custom-hooks/usePostsHook";
 
 function App() {
   const { isAuthenticated, user, token } = useInitial();
-  const { posts } = usePostsHook();
+  const { posts, fetchHome } = usePostsHook();
 
   return (
     <div className="dark">
@@ -35,7 +35,7 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/home" element={<Home fetchHome={fetchHome} />} />
               <Route
                 path="/auth/*"
                 element={<Auth isAuthenticated={isAuthenticated} />}

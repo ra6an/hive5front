@@ -4,6 +4,7 @@
 
 .container {
   width: 100%;
+  max-width: 100%;
   border-radius: 1rem;
   @include flexRow;
 
@@ -77,6 +78,7 @@
 
       .footer__btns {
         @include flexRow;
+        position: relative;
         gap: 1rem;
 
         .footer__btn {
@@ -87,12 +89,25 @@
           cursor: pointer;
           transition: all 0.5s ease;
         }
+
+        p {
+          width: 10rem;
+          position: absolute;
+          left: 0;
+          transform: translateX(-90%);
+          font-size: 1.2rem;
+          text-align: end;
+
+          .liked {
+            color: $liked-color !important;
+            color: black;
+          }
+        }
       }
 
       p {
         font-size: 1.4rem;
         cursor: pointer;
-        // margin-right: 2rem;
         padding: 0 1rem;
         border-radius: 1rem;
         transition: all 0.5s ease;
@@ -104,17 +119,9 @@
 
     .replies {
       width: 100%;
+      max-width: 100%;
       transform: scale(0);
       transition: all 1s ease;
     }
   }
 }
-
-// @keyframes scale-up {
-//   from {
-//     scale: 0;
-//   }
-//   to {
-//     scale: 1;
-//   }
-// }

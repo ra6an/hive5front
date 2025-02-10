@@ -7,6 +7,10 @@ $primary-color-light: #ebd03be5;
 $primary-c-color-light: #242424e5;
 $primary-color-dark: #ebd03be5;
 $primary-c-color-dark: #242424e5;
+$primary-color-hover-light: #e2c628e5;
+$primary-color-hover-dark: #e2c628e5;
+$primary-c-color-hover-light: #131313e5;
+$primary-c-color-hover-dark: #131313e5;
 
 // TEXT COLOR
 $primary-text-color-light: #252525;
@@ -39,7 +43,14 @@ $auth-btn-text-color-dark: #1d1d1f;
 $auth-btn-bg-hover-color-light: #cca539;
 $auth-btn-bg-hover-color-dark: #cca539;
 
-$opacity-10: rgba(0, 0, 0, 0.1);
+// LIKED
+$liked-color: #f30f0f;
+
+// BORDER
+$border-color-light: #e7bd48;
+$border-color-dark: #e7bd48;
+
+$opacity-10: rgba(0, 0, 0, 0.08);
 
 // // HEADER BORDER COLOR
 // $primary-border-color-light: #dfdfdf;

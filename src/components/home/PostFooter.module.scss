@@ -1,5 +1,6 @@
 //
 @use "../../styles/abstract/mixins" as *;
+@use "../../styles/abstract/colors" as *;
 
 .container {
   width: 100%;
@@ -22,6 +23,10 @@
 
     .icon {
       font-size: 1.8rem;
+    }
+
+    .liked {
+      color: $liked-color;
     }
   }
 }

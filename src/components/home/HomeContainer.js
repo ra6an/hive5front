@@ -5,6 +5,7 @@ import classes from "./HomeContainer.module.scss";
 
 // COMPONENTS
 import Post from "./Post";
+import CreatePostForm from "./CreatePostForm";
 
 const DUMMY_POST_DATA = [
   {
@@ -156,16 +157,19 @@ const HomeContainer = (props) => {
   const [postsRenderer, setPostsRenderer] = useState([]);
 
   useEffect(() => {
-    setPostsRenderer(posts.map((p) => <Post data={p} key={p.id} />));
-  }, [posts]);
+    setPostsRenderer(
+      posts.map((p) => <Post data={p} key={p.id} cantPost={props.cantPost} />)
+    );
+  }, [posts, props.cantPost]);
 
   const _posts = DUMMY_POST_DATA.map((post) => (
     <Post data={post} key={post.id} />
   ));
   return (
     <div className={`${classes.container}`}>
+      {!props.cantPost && <CreatePostForm />}
       {postsRenderer}
-      {_posts}
+      {/* {_posts} */}
     </div>
   );
 };

@@ -11,6 +11,10 @@ body {
     background-color: $primary-color-light !important;
     color: $primary-c-color-light !important;
   }
+  .primary-bg:hover {
+    background-color: $primary-color-hover-light !important;
+    color: $primary-c-color-hover-light !important;
+  }
 
   .active__btn {
     background-color: $primary-bg-color-light !important;
@@ -58,12 +62,20 @@ body {
       color: $primary-date-color-light !important;
     }
   }
+
+  .border {
+    border-color: $border-color-light;
+  }
 }
 
 .dark {
   .primary-bg {
     background-color: $primary-color-dark !important;
     color: $primary-c-color-dark !important;
+  }
+  .primary-bg:hover {
+    background-color: $primary-color-hover-dark !important;
+    color: $primary-c-color-hover-dark !important;
   }
 
   .active__btn {
@@ -112,5 +124,13 @@ body {
     .date {
       color: $primary-date-color-dark !important;
     }
+  }
+
+  .border {
+    border-color: $border-color-dark !important;
+  }
+
+  .username__border {
+    border-color: $primary-bg-color-dark !important;
   }
 }

@@ -10,14 +10,23 @@ const usePostsHook = (props) => {
   const { token, isAuthenticated } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.post);
 
+  const [fetchHome, setFetchHome] = useState(false);
+
   useEffect(() => {
-    if (isAuthenticated) {
+    if (!isAuthenticated && !token) return;
+
+    if (fetchHome) {
       dispatch(getPosts(token));
+      setFetchHome(false);
     }
-  }, [isAuthenticated, dispatch, token]);
+  }, [isAuthenticated, dispatch, token, fetchHome]);
 
   return {
     posts,
+    fetchHome: {
+      get: fetchHome,
+      set: setFetchHome,
+    },
   };
 };
 

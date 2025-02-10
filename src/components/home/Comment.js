@@ -1,36 +1,82 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./Comment.module.scss";
 
 import defaultImg from "../../images/default-user.jpg";
-import { Link } from "react-router";
 
 // ICONS
-import { FaRegHeart, FaRegComment } from "react-icons/fa6";
+import { FaRegHeart, FaRegComment, FaHeart } from "react-icons/fa6";
 
 // COMPONENTS
 import PostComments from "./PostComments";
 
+// STORE
+import { like, dislike } from "../../store/reducers/post-slice";
+
 // UTILS
 import formatDateTime from "../../utils/date-formater";
+import CreateComment from "./CreateComment";
 
 const Comment = (props) => {
+  const dispatch = useDispatch();
+  const { user, isAuthenticated, token } = useSelector((state) => state.auth);
+  // const containerRef = useRef(null);
+  // const contentRef = useRef(null);
   const [commentData, setCommentData] = useState({});
   const [showReplies, setShowReplies] = useState(false);
   const [repliesData, setRepliesData] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
   const [date, setDate] = useState("");
+  // const [divWidth, setDivWidth] = useState(800);
+
+  // const refCallback = useCallback((node) => {
+  //   if (!node) return;
+
+  //   containerRef.current = node;
+
+  //   const observer = new ResizeObserver((entries) => {
+  //     for (let entry of entries) {
+  //       const width = entry.contentRect.width;
+  //       setDivWidth(width);
+  //     }
+  //   });
+
+  //   observer.observe(node);
+
+  //   return () => observer.disconnect();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!containerRef.current || !contentRef.current) return;
+
+  //   const screenWidth = window.innerWidth;
+
+  //   if (divWidth >= screenWidth - 80) {
+  //     containerRef.current.style.maxWidth = `${screenWidth - 100}px`;
+  //     contentRef.current.style.maxWidth = `${screenWidth - 140} px`;
+  //   }
+  //   console.log(divWidth, screenWidth - 80);
+  // }, [divWidth]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    setIsLiked(props.data.likes.some((l) => l.user.username === user.username));
+  }, [isAuthenticated, user, props.data]);
 
   useEffect(() => {
     if (showReplies) {
       const _comms = [];
       props.data.replies.forEach((r) => {
-        const _comm = props.posts.filter((com) => com.id === r)[0];
+        const _comm = props.comments.filter((com) => com.id === r)[0];
 
         if (Object.keys(_comm).length > 0) _comms.push(_comm);
       });
       setRepliesData(_comms);
     }
-  }, [showReplies, props.data.replies, props.posts]);
+  }, [showReplies, props.data.replies, props.comments]);
 
   useEffect(() => {
     if (Object.keys(props.data).length) {
@@ -42,7 +88,7 @@ const Comment = (props) => {
     e.preventDefault();
     setShowReplies(!showReplies);
   };
-  console.log(props.data);
+
   useEffect(() => {
     setDate(formatDateTime(props.data.createdAt));
 
@@ -53,10 +99,33 @@ const Comment = (props) => {
     return () => clearInterval(_interval);
   }, [props.data.createdAt]);
 
+  const handleLikeComment = (e) => {
+    e.preventDefault();
+    if (!isAuthenticated || !token) return;
+
+    if (isLiked) {
+      dispatch(
+        dislike(token, {
+          type: "comment",
+          id: props.data.id,
+          postId: props.data.post,
+        })
+      );
+    } else {
+      dispatch(
+        like(token, {
+          type: "comment",
+          id: props.data.id,
+          postId: props.data.post,
+        })
+      );
+    }
+  };
+
   return (
     <>
       {Object.keys(commentData).length > 0 && (
-        <div className={classes.container}>
+        <div className={`testtt ${classes.container}`}>
           <div className={classes["user__img"]}>
             {showReplies && <div className={classes["user__vertical"]} />}
             {showReplies && <div className={classes["user__horizontal"]} />}
@@ -82,15 +151,28 @@ const Comment = (props) => {
                   : ``}
               </p>
               <div className={classes["footer__btns"]}>
-                <div className={`links ${classes["footer__btn"]}`}>
-                  <FaRegHeart />
+                <div
+                  className={`links ${classes["footer__btn"]}`}
+                  onClick={handleLikeComment}
+                >
+                  {props.data.likes.length > 0 && (
+                    <p className={`date`}>{props.data.likes.length}</p>
+                  )}
+                  {isLiked ? (
+                    <FaHeart className={`${classes.liked}`} color="#f30f0f" />
+                  ) : (
+                    <FaRegHeart />
+                  )}
                 </div>
-                <div className={`links ${classes["footer__btn"]}`}>
+                <div
+                  className={`links ${classes["footer__btn"]}`}
+                  onClick={handleShowReplies}
+                >
                   <FaRegComment />
                 </div>
               </div>
             </div>
-            {showReplies && repliesData.length > 0 && (
+            {showReplies && (
               <div
                 className={classes.replies}
                 style={
@@ -99,7 +181,12 @@ const Comment = (props) => {
                     : { transform: "scale(0)" }
                 }
               >
-                <PostComments data={repliesData} isParent={true} />
+                <PostComments
+                  comments={props.comments}
+                  post={props.data}
+                  data={repliesData}
+                  isParent={true}
+                />
               </div>
             )}
           </div>

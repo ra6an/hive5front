@@ -4,6 +4,7 @@ import classes from "./PostComments.module.scss";
 
 // COMPONENTS
 import Comment from "./Comment";
+import CreateComment from "./CreateComment";
 
 const PostComments = (props) => {
   const [parentComments, setParentComments] = useState([]);
@@ -26,7 +27,12 @@ const PostComments = (props) => {
 
     setCommentsRenderer(
       _parentComms.map((pc) => (
-        <Comment key={pc.id} data={pc} posts={props.data} />
+        <Comment
+          key={pc.id}
+          data={pc}
+          posts={props.data}
+          comments={props.comments}
+        />
       ))
     );
 
@@ -38,6 +44,11 @@ const PostComments = (props) => {
       className={classes.container}
       style={props.isParent ? { padding: ".4rem" } : {}}
     >
+      <CreateComment
+        isParent={props.isParent}
+        data={props.data}
+        post={props.post}
+      />
       {commentsRenderer}
     </div>
   );

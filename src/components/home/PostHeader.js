@@ -39,9 +39,11 @@ const PostHeader = (props) => {
             >
               {user.username || "User"}
             </Link>
-            <div className={`primary-bg ${classes.follow}`}>
-              <p>Follow</p>
-            </div>
+            {!props.cantPost && (
+              <div className={`primary-bg ${classes.follow}`}>
+                <p>Follow</p>
+              </div>
+            )}
           </div>
           <div className={`${classes.date} date`}>
             <p>{date || "-"}</p>

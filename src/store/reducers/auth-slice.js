@@ -3,7 +3,7 @@ import axios from "axios";
 
 const URL = "http://localhost:8080/api/v1";
 
-const initialArticleState = {
+const initialAuthState = {
   user: {},
   isAuthenticated: false,
   token: "",
@@ -11,7 +11,7 @@ const initialArticleState = {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: initialArticleState,
+  initialState: initialAuthState,
   reducers: {
     setUser(state, action) {
       state.user = action.payload.data;
