@@ -15,17 +15,29 @@
   }
 
   .icon__box {
+    position: relative;
     width: 100%;
     height: 100%;
     border-radius: 100%;
     border-radius: 1rem;
-    // border: 0.2rem solid;
     @include flexRow;
     cursor: pointer;
     transition: all 0.3s ease;
 
     .icon {
       font-size: 2.8rem;
+    }
+
+    p {
+      background-color: $alert-circle;
+      font-size: 1.2rem;
+      @include flexRow;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 5rem;
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
     }
   }
 

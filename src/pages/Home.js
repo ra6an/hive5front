@@ -13,8 +13,9 @@ const Home = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    props.fetchHome.set(true);
-  }, [props.fetchHome.set]);
+    if (!props.fetchHome?.set) return;
+    props.fetchHome?.set(true);
+  }, [props?.fetchHome?.set]);
 
   useEffect(() => {
     return () => {

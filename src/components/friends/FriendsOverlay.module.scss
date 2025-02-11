@@ -1,0 +1,16 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  position: fixed;
+  margin-top: 6rem;
+  width: 100vw;
+  width: 100%;
+  height: calc(100vh - 6rem);
+  display: grid;
+  grid-template-columns: 1fr 35rem;
+  align-items: flex-end;
+  z-index: 10;
+
+  pointer-events: none;
+}

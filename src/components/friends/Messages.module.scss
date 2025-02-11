@@ -1,0 +1,8 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  min-height: 5rem;
+
+  pointer-events: auto;
+}

@@ -1,0 +1,37 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexColumn;
+  height: 100%;
+  margin-right: 0.6rem;
+
+  pointer-events: auto;
+
+  .friends__container {
+    flex: 1;
+    @include flexColumn;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    width: 100%;
+    margin: 0.6rem 0;
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all 0.5s ease;
+  }
+
+  .btn {
+    height: 5rem;
+    @include flexRow;
+    width: 100%;
+    border-radius: 1rem;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+  }
+}

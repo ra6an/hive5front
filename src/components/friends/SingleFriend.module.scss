@@ -1,0 +1,30 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexRow;
+  gap: 1rem;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  cursor: pointer;
+
+  .image__box {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .user__details {
+    flex: 1;
+    height: 100%;
+    @include flexRow;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}

@@ -17,6 +17,7 @@ const SingleLink = (props) => {
             }`}
           >
             <props.icon className={classes.icon} />
+            {props.data && props.data.length > 0 && <p>{""}</p>}
           </div>
         </Link>
       ) : (
@@ -27,6 +28,7 @@ const SingleLink = (props) => {
             }`}
           >
             <props.icon className={classes.icon} />
+            {props.data && props.data.length > 0 && <p>{""}</p>}
           </div>
         </div>
       )}

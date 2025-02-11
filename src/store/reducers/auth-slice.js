@@ -5,6 +5,8 @@ const URL = "http://localhost:8080/api/v1";
 
 const initialAuthState = {
   user: {},
+  pendingFriendRequests: [],
+  friends: [],
   isAuthenticated: false,
   token: "",
 };
@@ -28,7 +30,19 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.token = "";
       localStorage.removeItem("token");
-      // localStorage.removeItem("token-exp");
+    },
+    setPendingFriendRequest(state, action) {
+      state.pendingFriendRequests = action.payload.data;
+    },
+    setFriends(state, action) {
+      state.friends = action.payload.data;
+    },
+    setAddFriend(state, action) {
+      const friendRequest = action.payload.data;
+      state.pendingFriendRequests = state.pendingFriendRequests.filter(
+        (fr) => fr.id !== friendRequest.id
+      );
+      state.friends = [...state.friends, friendRequest];
     },
   },
 });
@@ -101,8 +115,43 @@ export const getMyData = (token) => {
 
       if (response.status === 200) {
         dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
+        dispatch(
+          authSlice.actions.setPendingFriendRequest({
+            data: response.data.data.initialData.pendingFriendRequests,
+          })
+        );
+        dispatch(
+          authSlice.actions.setFriends({
+            data: response.data.data.initialData.friends,
+          })
+        );
         dispatch(authSlice.actions.setAuth({ value: true }));
         dispatch(authSlice.actions.setToken({ value: token }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const acceptFriendRequest = (token, userInputs) => {
+  return async (dispatch) => {
+    try {
+      const axiosOptions = {
+        method: "PATCH",
+        url: `${URL}/friend-requests/${userInputs.friendRequestId}/accept`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios(axiosOptions);
+
+      if (response.status === 200) {
+        dispatch(
+          authSlice.actions.setAddFriend({ data: response.data.data.data })
+        );
       }
     } catch (err) {
       console.log(err);

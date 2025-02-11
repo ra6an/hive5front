@@ -9,10 +9,12 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import SinglePost from "./pages/SinglePost";
 import SingleUser from "./pages/SingleUser";
+import FriendRequests from "./pages/FriendRequests";
 
 // COMPONENTS
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import FriendsOvelay from "./components/friends/FriendsOverlay";
 
 // HOOKS
 import useInitial from "./custom-hooks/useInitial";
@@ -23,9 +25,10 @@ function App() {
   const { posts, fetchHome } = usePostsHook();
 
   return (
-    <div className="dark">
+    <div className={`dark`}>
       <div className={`background app text`}>
         {isAuthenticated && <Header />}
+        {isAuthenticated && <FriendsOvelay />}
         <Routes>
           {!isAuthenticated ? (
             <Route
@@ -40,6 +43,7 @@ function App() {
                 path="/auth/*"
                 element={<Auth isAuthenticated={isAuthenticated} />}
               />
+              <Route path="/friend-requests" element={<FriendRequests />} />
               <Route path="/explore" element={<Explore />} />
               <Route
                 path="/post/:postId"

@@ -15,6 +15,14 @@ body {
     background-color: $primary-color-hover-light !important;
     color: $primary-c-color-hover-light !important;
   }
+  .secondary-bg {
+    border: 0.2rem solid $secondary-color-light;
+    color: $secondary-color-light !important;
+  }
+  .secondary-bg:hover {
+    border-color: $secondary-color-hover-light !important;
+    color: $secondary-color-hover-light !important;
+  }
 
   .active__btn {
     background-color: $primary-bg-color-light !important;
@@ -76,6 +84,14 @@ body {
   .primary-bg:hover {
     background-color: $primary-color-hover-dark !important;
     color: $primary-c-color-hover-dark !important;
+  }
+  .secondary-bg {
+    border: 0.2rem solid $secondary-color-dark;
+    color: $secondary-color-dark !important;
+  }
+  .secondary-bg:hover {
+    border-color: $secondary-color-hover-dark !important;
+    color: $secondary-color-hover-dark !important;
   }
 
   .active__btn {
