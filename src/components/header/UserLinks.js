@@ -21,8 +21,8 @@ const UserLinks = (props) => {
     <div className={`${classes.container}`}>
       <div className={classes["inner__box"]}>
         <SingleLink
-          data={[]}
-          path={""}
+          data={props.notificationsHook.unseenNotifications}
+          path={"/notifications"}
           icon={MdNotificationsNone}
           isActive={false}
         />

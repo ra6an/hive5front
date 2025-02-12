@@ -7,6 +7,8 @@ const initialAuthState = {
   user: {},
   pendingFriendRequests: [],
   friends: [],
+  notifications: [],
+  messages: [],
   isAuthenticated: false,
   token: "",
 };
@@ -43,6 +45,19 @@ const authSlice = createSlice({
         (fr) => fr.id !== friendRequest.id
       );
       state.friends = [...state.friends, friendRequest];
+    },
+    updateFriendRequests(state, action) {
+      const friendRequest = action.payload.data;
+      state.pendingFriendRequests = state.pendingFriendRequests.filter(
+        (fr) => fr.id !== friendRequest.id
+      );
+      state.friends = [...state.friends, friendRequest];
+    },
+    setNotifications(state, action) {
+      state.notifications = action.payload.data;
+    },
+    setMessages(state, action) {
+      state.messages = action.payload.data;
     },
   },
 });
@@ -125,6 +140,16 @@ export const getMyData = (token) => {
             data: response.data.data.initialData.friends,
           })
         );
+        dispatch(
+          authSlice.actions.setNotifications({
+            data: response.data.data.initialData.notifications,
+          })
+        );
+        dispatch(
+          authSlice.actions.setMessages({
+            data: response.data.data.initialData.messages,
+          })
+        );
         dispatch(authSlice.actions.setAuth({ value: true }));
         dispatch(authSlice.actions.setToken({ value: token }));
       }
@@ -134,12 +159,12 @@ export const getMyData = (token) => {
   };
 };
 
-export const acceptFriendRequest = (token, userInputs) => {
+export const handleFriendRequest = (token, userInputs) => {
   return async (dispatch) => {
     try {
       const axiosOptions = {
         method: "PATCH",
-        url: `${URL}/friend-requests/${userInputs.friendRequestId}/accept`,
+        url: `${URL}/friend-requests/${userInputs.friendRequestId}/${userInputs.statusType}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -149,9 +174,15 @@ export const acceptFriendRequest = (token, userInputs) => {
       const response = await axios(axiosOptions);
 
       if (response.status === 200) {
+        // if (userInputs.statusType === "accept") {
         dispatch(
-          authSlice.actions.setAddFriend({ data: response.data.data.data })
+          authSlice.actions.updateFriendRequests({
+            data: response.data.data.data,
+          })
         );
+        // } else {
+        // dispatch(authSlice.actions.removeFriendRequest({data: response.data.data.data}))
+        // }
       }
     } catch (err) {
       console.log(err);

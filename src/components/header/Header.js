@@ -12,7 +12,7 @@ const Header = (props) => {
     <header className={classes.container}>
       <Logo />
       <Links />
-      <UserLinks />
+      <UserLinks notificationsHook={props.notificationsHook} />
     </header>
   );
 };

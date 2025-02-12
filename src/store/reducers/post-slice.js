@@ -6,6 +6,9 @@ const URL = "http://localhost:8080/api/v1";
 const initialPostState = {
   posts: [],
   post: {},
+  highlightComment: 0,
+  highlightedParentComment: 0,
+  highlightLikedComment: 0,
   postsLength: 0,
 };
 
@@ -27,6 +30,21 @@ const postSlice = createSlice({
     },
     setPost(state, action) {
       state.post = action.payload.data;
+    },
+    clearPost(state) {
+      state.post = {};
+      state.highlightComment = 0;
+      state.highlightedParentComment = 0;
+      state.highlightLikedComment = 0;
+    },
+    setHighlightComment(state, action) {
+      state.highlightComment = action.payload.value;
+    },
+    setHighlightedParentComment(state, action) {
+      state.highlightedParentComment = action.payload.value;
+    },
+    setHighlightLikedComment(state, action) {
+      state.highlightLikedComment = action.payload.value;
     },
     addCommentToPost(state, action) {
       const newComment = action.payload.data;
@@ -192,6 +210,29 @@ export const getPostsById = (token, postId) => {
       const axiosOptions = {
         method: "GET",
         url: `${URL}/posts/${postId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios(axiosOptions);
+
+      if (response.status === 200) {
+        dispatch(postSlice.actions.setPost({ data: response.data.data.data }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const getPostByCommentId = (token, commentId) => {
+  return async (dispatch) => {
+    try {
+      const axiosOptions = {
+        method: "GET",
+        url: `${URL}/comments/${commentId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

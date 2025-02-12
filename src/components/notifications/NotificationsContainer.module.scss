@@ -1,0 +1,8 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexColumn;
+  gap: 4rem;
+  width: 80rem;
+}

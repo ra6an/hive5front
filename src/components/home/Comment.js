@@ -22,43 +22,19 @@ import CreateComment from "./CreateComment";
 const Comment = (props) => {
   const dispatch = useDispatch();
   const { user, isAuthenticated, token } = useSelector((state) => state.auth);
-  // const containerRef = useRef(null);
-  // const contentRef = useRef(null);
+  const { highlightComment, highlightedParentComment, highlightLikedComment } =
+    useSelector((state) => state.post);
+
   const [commentData, setCommentData] = useState({});
+  // const [showReplies, setShowReplies] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesData, setRepliesData] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [date, setDate] = useState("");
-  // const [divWidth, setDivWidth] = useState(800);
 
-  // const refCallback = useCallback((node) => {
-  //   if (!node) return;
-
-  //   containerRef.current = node;
-
-  //   const observer = new ResizeObserver((entries) => {
-  //     for (let entry of entries) {
-  //       const width = entry.contentRect.width;
-  //       setDivWidth(width);
-  //     }
-  //   });
-
-  //   observer.observe(node);
-
-  //   return () => observer.disconnect();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!containerRef.current || !contentRef.current) return;
-
-  //   const screenWidth = window.innerWidth;
-
-  //   if (divWidth >= screenWidth - 80) {
-  //     containerRef.current.style.maxWidth = `${screenWidth - 100}px`;
-  //     contentRef.current.style.maxWidth = `${screenWidth - 140} px`;
-  //   }
-  //   console.log(divWidth, screenWidth - 80);
-  // }, [divWidth]);
+  useEffect(() => {
+    if (highlightedParentComment === props.data.id) setShowReplies(true);
+  }, [highlightedParentComment, props.data.id]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -125,7 +101,14 @@ const Comment = (props) => {
   return (
     <>
       {Object.keys(commentData).length > 0 && (
-        <div className={`testtt ${classes.container}`}>
+        <div
+          className={`${
+            highlightComment === props.data.id ||
+            highlightLikedComment === props.data.id
+              ? "highlighted"
+              : ""
+          } ${classes.container}`}
+        >
           <div className={classes["user__img"]}>
             {showReplies && <div className={classes["user__vertical"]} />}
             {showReplies && <div className={classes["user__horizontal"]} />}

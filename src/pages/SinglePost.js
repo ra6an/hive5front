@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import classes from "./SinglePost.module.scss";
 
@@ -21,7 +21,7 @@ const SinglePost = (props) => {
     }
 
     return () => {
-      dispatch(postSlice.actions.setPost({ data: {} }));
+      dispatch(postSlice.actions.clearPost());
     };
   }, [params.postId, dispatch, props.token]);
 

@@ -12,8 +12,9 @@ const FriendsContainer = (props) => {
   const [showFriendsList, setShowFriendsList] = useState(false);
 
   useEffect(() => {
+    const _filteredFriends = friends.filter((f) => f.status === "ACCEPTED");
     setFriendsRenderer(
-      friends.map((f) => <SingleFriend key={f.id} data={f} />)
+      _filteredFriends.map((f) => <SingleFriend key={f.id} data={f} />)
     );
   }, [friends]);
 

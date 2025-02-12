@@ -10,6 +10,8 @@ import Explore from "./pages/Explore";
 import SinglePost from "./pages/SinglePost";
 import SingleUser from "./pages/SingleUser";
 import FriendRequests from "./pages/FriendRequests";
+import Notifications from "./pages/Notifications";
+import Comment from "./pages/Comment";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -19,15 +21,17 @@ import FriendsOvelay from "./components/friends/FriendsOverlay";
 // HOOKS
 import useInitial from "./custom-hooks/useInitial";
 import usePostsHook from "./custom-hooks/usePostsHook";
+import useNotificationHook from "./custom-hooks/useNotificationHook";
 
 function App() {
   const { isAuthenticated, user, token } = useInitial();
   const { posts, fetchHome } = usePostsHook();
+  const notificationsHook = useNotificationHook();
 
   return (
     <div className={`dark`}>
       <div className={`background app text`}>
-        {isAuthenticated && <Header />}
+        {isAuthenticated && <Header notificationsHook={notificationsHook} />}
         {isAuthenticated && <FriendsOvelay />}
         <Routes>
           {!isAuthenticated ? (
@@ -44,7 +48,14 @@ function App() {
                 element={<Auth isAuthenticated={isAuthenticated} />}
               />
               <Route path="/friend-requests" element={<FriendRequests />} />
+              <Route
+                path="/notifications"
+                element={
+                  <Notifications notificationsHook={notificationsHook} />
+                }
+              />
               <Route path="/explore" element={<Explore />} />
+              <Route path="/comment/:commentId" element={<Comment />} />
               <Route
                 path="/post/:postId"
                 element={<SinglePost token={token} />}

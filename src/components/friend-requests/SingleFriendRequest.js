@@ -8,7 +8,7 @@ import classes from "./SingleFriendRequest.module.scss";
 import defaultImg from "../../images/default-user.jpg";
 
 // STORE
-import { acceptFriendRequest } from "../../store/reducers/auth-slice";
+import { handleFriendRequest } from "../../store/reducers/auth-slice";
 
 // UTILS
 import formatDateTime from "../../utils/date-formater";
@@ -20,9 +20,25 @@ const SingleFriendRequest = (props) => {
   const handleAcceptFriendRequest = (e) => {
     e.preventDefault();
     if (!token || !isAuthenticated) return;
-    console.log(props.data);
-    console.log(token);
-    dispatch(acceptFriendRequest(token, { friendRequestId: props.data.id }));
+
+    dispatch(
+      handleFriendRequest(token, {
+        friendRequestId: props.data.id,
+        statusType: "accept",
+      })
+    );
+  };
+
+  const handleRejectFriendRequest = (e) => {
+    e.preventDefault();
+    if (!token || !isAuthenticated) return;
+
+    dispatch(
+      handleFriendRequest(token, {
+        friendRequestId: props.data.id,
+        statusType: "reject",
+      })
+    );
   };
   return (
     <>
@@ -53,7 +69,12 @@ const SingleFriendRequest = (props) => {
               >
                 Accept
               </div>
-              <div className={`secondary-bg ${classes["btn"]}`}>Reject</div>
+              <div
+                className={`secondary-bg ${classes["btn"]}`}
+                onClick={handleRejectFriendRequest}
+              >
+                Reject
+              </div>
             </div>
           </div>
         </div>

@@ -65,14 +65,25 @@ body {
 
   .post {
     background-color: $primary-post-bg-color-light !important;
+  }
+  .date {
+    color: $primary-date-color-light !important;
+  }
 
-    .date {
-      color: $primary-date-color-light !important;
-    }
+  .notification {
+    background-color: $primary-notification-bg-color-light !important;
+  }
+  .notification:hover {
+    background-color: $primary-notification-hover-bg-color-light !important;
   }
 
   .border {
     border-color: $border-color-light;
+  }
+
+  .highlighted {
+    border: 0.2rem solid $highlighted-dark !important;
+    padding: 1rem 0.4rem !important;
   }
 }
 
@@ -136,10 +147,16 @@ body {
 
   .post {
     background-color: $primary-post-bg-color-dark !important;
+  }
+  .date {
+    color: $primary-date-color-dark !important;
+  }
 
-    .date {
-      color: $primary-date-color-dark !important;
-    }
+  .notification {
+    background-color: $primary-notification-bg-color-dark !important;
+  }
+  .notification:hover {
+    background-color: $primary-notification-hover-bg-color-dark !important;
   }
 
   .border {
@@ -148,5 +165,10 @@ body {
 
   .username__border {
     border-color: $primary-bg-color-dark !important;
+  }
+
+  .highlighted {
+    border: 0.2rem solid $highlighted-dark !important;
+    padding: 1rem 1rem !important;
   }
 }

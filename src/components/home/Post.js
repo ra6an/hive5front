@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useSelector } from "react-redux";
 
 import classes from "./Post.module.scss";
@@ -10,8 +10,14 @@ import PostFooter from "./PostFooter";
 import PostComments from "./PostComments";
 
 const Post = (props) => {
+  const location = useLocation();
   const { user } = useSelector((state) => state.auth);
-  const [showComments, setShowComments] = useState(false);
+  const [showComments, setShowComments] = useState(
+    location.pathname.includes("/post/") ||
+      location.pathname.includes("/comment/")
+      ? true
+      : false
+  );
   const [likedPost, setLikedPost] = useState(false);
 
   useEffect(() => {

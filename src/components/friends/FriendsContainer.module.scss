@@ -6,8 +6,6 @@
   height: 100%;
   margin-right: 0.6rem;
 
-  pointer-events: auto;
-
   .friends__container {
     flex: 1;
     @include flexColumn;
@@ -19,6 +17,7 @@
     border-radius: 1rem;
     padding: 1rem;
     transition: all 0.5s ease;
+    pointer-events: auto;
   }
 
   .btn {
@@ -33,5 +32,6 @@
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 5;
+    pointer-events: auto;
   }
 }

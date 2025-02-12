@@ -1,0 +1,6 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexRow;
+}
