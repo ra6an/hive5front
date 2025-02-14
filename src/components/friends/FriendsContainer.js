@@ -10,9 +10,12 @@ const FriendsContainer = (props) => {
   const [friendsRenderer, setFriendsRenderer] = useState([]);
   const { friends } = useSelector((state) => state.auth);
   const [showFriendsList, setShowFriendsList] = useState(false);
+  const [friendsLength, setFriendsLength] = useState(0);
 
   useEffect(() => {
     const _filteredFriends = friends.filter((f) => f.status === "ACCEPTED");
+
+    setFriendsLength(_filteredFriends.length || 0);
     setFriendsRenderer(
       _filteredFriends.map((f) => <SingleFriend key={f.id} data={f} />)
     );
@@ -26,7 +29,7 @@ const FriendsContainer = (props) => {
   return (
     <div className={`text ${classes.container}`}>
       <div
-        className={`post ${classes["friends__container"]}`}
+        className={`box-shadow post ${classes["friends__container"]}`}
         style={showFriendsList ? {} : { transform: `translateY(110%)` }}
       >
         {friendsRenderer}
@@ -34,7 +37,7 @@ const FriendsContainer = (props) => {
       <div
         className={`primary-bg ${classes["btn"]}`}
         onClick={showFriendsListHandler}
-      >{`Friends (${friends.length})`}</div>
+      >{`Friends (${friendsLength})`}</div>
     </div>
   );
 };

@@ -85,6 +85,10 @@ body {
     border: 0.2rem solid $highlighted-dark !important;
     padding: 1rem 0.4rem !important;
   }
+
+  .box-shadow {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
 }
 
 .dark {
@@ -170,5 +174,9 @@ body {
   .highlighted {
     border: 0.2rem solid $highlighted-dark !important;
     padding: 1rem 1rem !important;
+  }
+
+  .box-shadow {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
   }
 }

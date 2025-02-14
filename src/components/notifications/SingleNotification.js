@@ -9,6 +9,8 @@ import formatDateTime from "../../utils/date-formater";
 // ICONS
 import { FaRegHeart, FaRegComment, FaForumbee } from "react-icons/fa";
 
+// STORE
+
 const SingleNotification = (props) => {
   const [urlPath, setUrlPath] = useState("");
   const [message, setMessage] = useState("");
@@ -65,6 +67,8 @@ const SingleNotification = (props) => {
     } else if (props.data.type === "LIKE") {
       props.notificationsHook.hightlightLikedComment(props.data.targetId);
     }
+
+    props.notificationsHook.handleSeenNotifications(props.data.id);
   };
 
   useEffect(() => {

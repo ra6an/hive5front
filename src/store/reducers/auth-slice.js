@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const URL = "http://localhost:8080/api/v1";
+const URL = `${process.env.REACT_APP_URL}`;
 
 const initialAuthState = {
   user: {},
   pendingFriendRequests: [],
+  sentFriendRequests: [],
   friends: [],
   notifications: [],
   messages: [],
@@ -36,8 +37,26 @@ const authSlice = createSlice({
     setPendingFriendRequest(state, action) {
       state.pendingFriendRequests = action.payload.data;
     },
+    addPendingFriendRequest(state, action) {
+      state.pendingFriendRequests = [
+        action.payload.data,
+        ...state.pendingFriendRequests,
+      ];
+    },
     setFriends(state, action) {
       state.friends = action.payload.data;
+    },
+    addFriends(state, action) {
+      state.friends = [action.payload.data, ...state.friends];
+    },
+    setSentFriendRequests(state, action) {
+      state.sentFriendRequests = action.payload.data;
+    },
+    addNewSentFriendRequest(state, action) {
+      state.sentFriendRequests = [
+        action.payload.data,
+        ...state.sentFriendRequests,
+      ];
     },
     setAddFriend(state, action) {
       const friendRequest = action.payload.data;
@@ -55,6 +74,15 @@ const authSlice = createSlice({
     },
     setNotifications(state, action) {
       state.notifications = action.payload.data;
+    },
+    addNewNotifications(state, action) {
+      state.notifications = [action.payload.data, ...state.notifications];
+    },
+    updateNotifications(state, action) {
+      const notification = action.payload.data;
+      state.notifications = state.notifications.map((not) =>
+        not.id === notification.id ? notification : not
+      );
     },
     setMessages(state, action) {
       state.messages = action.payload.data;
@@ -141,6 +169,11 @@ export const getMyData = (token) => {
           })
         );
         dispatch(
+          authSlice.actions.setSentFriendRequests({
+            data: response.data.data.initialData.sentFriendRequests,
+          })
+        );
+        dispatch(
           authSlice.actions.setNotifications({
             data: response.data.data.initialData.notifications,
           })
@@ -152,6 +185,33 @@ export const getMyData = (token) => {
         );
         dispatch(authSlice.actions.setAuth({ value: true }));
         dispatch(authSlice.actions.setToken({ value: token }));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const createFriendRequest = (token, userInputs) => {
+  return async (dispatch) => {
+    try {
+      const axiosOptions = {
+        method: "POST",
+        url: `${URL}/friend-requests/send/${userInputs.userId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios(axiosOptions);
+
+      if (response.status === 200) {
+        dispatch(
+          authSlice.actions.addNewSentFriendRequest({
+            data: response.data.data.request,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
@@ -174,15 +234,38 @@ export const handleFriendRequest = (token, userInputs) => {
       const response = await axios(axiosOptions);
 
       if (response.status === 200) {
-        // if (userInputs.statusType === "accept") {
         dispatch(
           authSlice.actions.updateFriendRequests({
             data: response.data.data.data,
           })
         );
-        // } else {
-        // dispatch(authSlice.actions.removeFriendRequest({data: response.data.data.data}))
-        // }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const handleSeenNotification = (token, userInputs) => {
+  return async (dispatch) => {
+    try {
+      const axiosOptions = {
+        method: "PATCH",
+        url: `${URL}/notifications/${userInputs.notificationId}/seen`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios(axiosOptions);
+
+      if (response.status === 200) {
+        dispatch(
+          authSlice.actions.updateNotifications({
+            data: response.data.data.data,
+          })
+        );
       }
     } catch (err) {
       console.log(err);

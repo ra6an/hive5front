@@ -29,8 +29,16 @@ const useHandlePost = (props) => {
     if (!token || !isAuthenticated) return;
 
     dispatch(
-      createNewPost(token, { content: contentInput, status: postStatus })
+      createNewPost(
+        token,
+        { content: contentInput, status: postStatus },
+        clearContentState
+      )
     );
+  };
+
+  const clearContentState = () => {
+    setContentInput("");
   };
 
   return {

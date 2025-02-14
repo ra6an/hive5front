@@ -27,7 +27,7 @@ const UserContainer = (props) => {
     if (!isAuthenticated || !token) return;
     if (currUsername === "") return;
 
-    dispatch(getPosts(token, currUsername));
+    dispatch(getPosts(token, { user: currUsername }));
     dispatch(getUser(token, { username: currUsername }));
   }, [currUsername, token, isAuthenticated, dispatch]);
 

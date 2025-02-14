@@ -9,7 +9,7 @@ import Links from "./Links";
 
 const Header = (props) => {
   return (
-    <header className={classes.container}>
+    <header className={`box-shadow ${classes.container}`}>
       <Logo />
       <Links />
       <UserLinks notificationsHook={props.notificationsHook} />

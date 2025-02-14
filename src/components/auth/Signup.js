@@ -50,11 +50,14 @@ const Signup = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    // e.preventDefault();
+  const onSubmit = (data) => {
     dispatch(
       signup(
-        { username: "ra6an", password: "test123", confirmPassword: "test123" },
+        {
+          username: data.username,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+        },
         navigate
       )
     );

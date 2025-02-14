@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const URL = "http://localhost:8080/api/v1";
+const URL = `${process.env.REACT_APP_URL}`;
 
 const initialPostState = {
   posts: [],
@@ -173,15 +173,20 @@ const postSlice = createSlice({
   },
 });
 
-export const getPosts = (token, user = "") => {
+export const getPosts = (token, userInputs) => {
   return async (dispatch) => {
     try {
-      let URL_PARAMS = `user/${user}`;
-      if (user) {
+      let URL_EXTENSION = `user/${userInputs.user}`;
+
+      if (userInputs.user) {
+        URL_EXTENSION = `user/${userInputs.user}`;
+      } else {
+        URL_EXTENSION = `${userInputs.extension}`;
       }
+
       const axiosOptions = {
         method: "GET",
-        url: `${URL}/posts/${user && URL_PARAMS}`,
+        url: `${URL}/posts/${URL_EXTENSION}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -250,7 +255,7 @@ export const getPostByCommentId = (token, commentId) => {
   };
 };
 
-export const createNewPost = (token, userInputs) => {
+export const createNewPost = (token, userInputs, fn) => {
   return async (dispatch) => {
     try {
       const axiosOptions = {
@@ -269,6 +274,7 @@ export const createNewPost = (token, userInputs) => {
         dispatch(
           postSlice.actions.addNewPostToPosts({ data: response.data.data.data })
         );
+        fn();
       }
     } catch (err) {
       console.log(err);

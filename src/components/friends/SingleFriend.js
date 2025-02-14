@@ -15,7 +15,7 @@ const SingleFriend = (props) => {
     if (Object.keys(user).length === 0) return;
 
     setUserData(
-      props.data.sender === user.id ? props.data.receiver : props.data.sender
+      props.data.sender.id === user.id ? props.data.receiver : props.data.sender
     );
   }, [props.data, user]);
 

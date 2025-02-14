@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import "./styles/main.scss";
@@ -23,11 +23,15 @@ import useInitial from "./custom-hooks/useInitial";
 import usePostsHook from "./custom-hooks/usePostsHook";
 import useNotificationHook from "./custom-hooks/useNotificationHook";
 
+// SOCKET
+import useWebSocket from "./custom-hooks/useWebSocket";
+
 function App() {
   const { isAuthenticated, user, token } = useInitial();
-  const { posts, fetchHome } = usePostsHook();
+  const { posts, fetchExplore, fetchHome } = usePostsHook();
   const notificationsHook = useNotificationHook();
-
+  const _useWebSocket = useWebSocket();
+  console.log(posts);
   return (
     <div className={`dark`}>
       <div className={`background app text`}>
@@ -54,7 +58,10 @@ function App() {
                   <Notifications notificationsHook={notificationsHook} />
                 }
               />
-              <Route path="/explore" element={<Explore />} />
+              <Route
+                path="/explore"
+                element={<Explore fetchExplore={fetchExplore} />}
+              />
               <Route path="/comment/:commentId" element={<Comment />} />
               <Route
                 path="/post/:postId"

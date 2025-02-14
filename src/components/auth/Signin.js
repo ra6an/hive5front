@@ -43,8 +43,10 @@ const Signin = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    dispatch(signin({ username: "ra6an", password: "test123" }, navigate));
+  const onSubmit = (data) => {
+    dispatch(
+      signin({ username: data.username, password: data.password }, navigate)
+    );
   };
 
   return (

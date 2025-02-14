@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const URL = "http://localhost:8080/api/v1";
+const URL = `${process.env.REACT_APP_URL}`;
 
 const initialUserState = {
   singleUser: {},

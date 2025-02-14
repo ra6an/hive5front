@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 // STORE
 import { postActions } from "../store/redux-store";
+import { handleSeenNotification } from "../store/reducers/auth-slice";
 
 const useNotificationHook = (props) => {
   const dispatch = useDispatch();
+  const { isAuthenticated, token, user } = useSelector((state) => state.auth);
   const { notifications } = useSelector((state) => state.auth);
   const [haveUnreadNotifications, setHaveUnreadNotifications] = useState(false);
   const [seenNotifications, setSeenNotifications] = useState([]);
@@ -31,6 +33,12 @@ const useNotificationHook = (props) => {
     dispatch(postActions.setHighlightLikedComment({ value: highlightComment }));
   };
 
+  const handleSeenNotifications = (notificationId) => {
+    if (!token || !isAuthenticated) return;
+
+    dispatch(handleSeenNotification(token, { notificationId: notificationId }));
+  };
+
   return {
     // VALUES
     haveUnreadNotifications,
@@ -40,6 +48,7 @@ const useNotificationHook = (props) => {
     // FUNCTIONS
     highlightComment,
     hightlightLikedComment,
+    handleSeenNotifications,
   };
 };
 

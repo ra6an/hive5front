@@ -8,7 +8,7 @@ import Post from "../home/Post";
 
 const PostContainer = (props) => {
   const { post } = useSelector((state) => state.post);
-  console.log(post);
+
   return (
     <div className={classes.container}>
       {Object.keys(post).length === 0 ? (
