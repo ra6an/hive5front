@@ -1,7 +1,7 @@
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
-const WS_URL = "https://localhost:8443/ws";
+const WS_URL = `${process.env.REACT_APP_WSURL}`;
 let stompClient = null;
 
 export const connectSocket = (_userId, onMessageReceived) => {
