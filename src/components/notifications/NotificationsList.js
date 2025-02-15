@@ -7,13 +7,14 @@ import SingleNotification from "./SingleNotification";
 
 const NotificationsList = (props) => {
   const [notRenderer, setNotRenderer] = useState([]);
-  console.log(props.data);
+
   useEffect(() => {
     setNotRenderer(
-      props.data.map((n) => (
+      props.data.map((n, i) => (
         <SingleNotification
           key={n.id}
           data={n}
+          timeout={i}
           notificationsHook={props.notificationsHook}
         />
       ))

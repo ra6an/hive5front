@@ -1,0 +1,42 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexColumn;
+  gap: 1rem;
+  padding: 2rem;
+  height: 100%;
+
+  form {
+    align-self: stretch;
+    margin-top: 2rem;
+    @include flexColumn;
+    flex: 1;
+
+    .form__inputs {
+      align-self: stretch;
+      @include flexColumn;
+      justify-content: flex-start;
+      flex: 1;
+    }
+
+    .form__btns {
+      align-self: stretch;
+      @include flexRow;
+      justify-content: flex-end;
+
+      button {
+        background: none;
+        border: none;
+        @include flexRow;
+        padding: 1rem 2rem;
+        min-width: 14rem;
+        border-radius: 0.8rem;
+        font-size: 1.6rem;
+        font-weight: 600 !important;
+        transition: all 0.5s ease;
+        cursor: pointer;
+      }
+    }
+  }
+}

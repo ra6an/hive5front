@@ -1,0 +1,38 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  @include flexColumn;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  min-width: 20rem;
+  border-radius: 1rem;
+  transition: all 0.1s ease;
+  z-index: 89;
+
+  .dropdown-theme {
+    align-self: stretch;
+    @include flexRowSB;
+    height: 4rem;
+    padding: 1rem 1rem;
+    border-radius: 0.6rem;
+    margin-bottom: 1rem;
+
+    .slider {
+      @include flexRow;
+      width: 4rem;
+      align-self: stretch;
+      border-radius: 10rem;
+      cursor: pointer;
+
+      .thumb {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.6rem;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}

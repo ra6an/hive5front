@@ -81,11 +81,11 @@ const PostHeader = (props) => {
           </div>
         </div>
       </div>
-      <div className={`${classes.close}`}>
+      {/* <div className={`${classes.close}`}>
         <div className={`links ${classes["btn__close"]}`}>
           <MdClose />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

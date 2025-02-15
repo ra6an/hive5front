@@ -81,6 +81,10 @@ body {
     border-color: $border-color-light;
   }
 
+  .username__border {
+    border-color: $primary-bg-color-light !important;
+  }
+
   .highlighted {
     border: 0.2rem solid $highlighted-dark !important;
     padding: 1rem 0.4rem !important;
@@ -88,6 +92,10 @@ body {
 
   .box-shadow {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+
+  .opacity-comment {
+    background-color: $opacity-5;
   }
 }
 
@@ -178,5 +186,41 @@ body {
 
   .box-shadow {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
+  }
+
+  .opacity-comment {
+    background-color: $opacity-10;
+  }
+}
+.fade-in {
+  animation: fade-in 2s ease;
+}
+.fade-in-quick {
+  animation: fade-in 0.5s ease;
+}
+.pop-fade-in {
+  animation: pop-fade-in 0.5s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  25% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
   }
 }

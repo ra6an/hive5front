@@ -26,7 +26,6 @@ const Comment = (props) => {
     useSelector((state) => state.post);
 
   const [commentData, setCommentData] = useState({});
-  // const [showReplies, setShowReplies] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesData, setRepliesData] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
@@ -116,7 +115,7 @@ const Comment = (props) => {
               <img src={defaultImg} alt={`${props.data.user.username}`} />
             </div>
           </div>
-          <div className={classes.content}>
+          <div className={`opacity-comment ${classes.content}`}>
             <div className={classes["content__header"]}>
               <Link
                 to={`/user/${props.data.user.username}`}

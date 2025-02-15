@@ -1,0 +1,16 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  align-self: stretch;
+  @include flexColumn;
+
+  .single__dropdown-container {
+    @include flexRow;
+    align-self: stretch;
+    height: 4rem;
+    text-decoration: none;
+    border-radius: 0.6rem;
+    transition: all 0.3s ease;
+  }
+}

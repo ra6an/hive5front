@@ -4,6 +4,7 @@
 .container {
   width: 100%;
   text-decoration: none;
+  opacity: 0;
 
   .content {
     @include flexRow;
@@ -13,6 +14,10 @@
     height: 100%;
     border-radius: 1rem;
     transition: all 0.3s ease;
+
+    .created__at {
+      font-size: 1.4rem;
+    }
   }
 
   .message {

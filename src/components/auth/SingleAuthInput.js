@@ -5,7 +5,11 @@ import classes from "./SingleAuthInput.module.scss";
 const SingleAuthInput = (props) => {
   return (
     <div className={`${classes.container}`}>
-      {/* <label>{props.data.placeholder}</label> */}
+      {props.data.showLabel && (
+        <label className={`background`} name={props.data.label}>
+          {props.data.placeholder}
+        </label>
+      )}
       <input
         {...props.data.register(props.data.label)}
         type={props.data.type}

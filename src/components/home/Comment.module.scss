@@ -48,12 +48,15 @@
   .content {
     flex: 1;
     padding: 0.4rem 1rem;
-    background-color: $opacity-10;
+    font-weight: 300;
+    font-size: 1.6rem;
+    // background-color: $opacity-10;
     margin-left: 1rem;
 
     .content__header {
       width: 100%;
       @include flexRow;
+      margin-bottom: 0.6rem;
       justify-content: flex-start;
 
       .user {

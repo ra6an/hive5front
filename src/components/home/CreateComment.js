@@ -58,6 +58,7 @@ const CreateComment = (props) => {
         className={`text`}
         onChange={handleContentTextarea}
         value={contentInput}
+        placeholder="Comment..."
       ></textarea>
       <button type="submit" className={`primary-bg`}>
         <BiSolidSend />

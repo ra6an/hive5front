@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import classes from "./UserLinks.module.scss";
@@ -9,13 +9,22 @@ import SingleLink from "./SingleLink";
 // ICONS
 import { MdNotificationsNone } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
-import { TbMessage } from "react-icons/tb";
+// import { TbMessage } from "react-icons/tb";
 
 // IMAGE
 import defaultUser from "../../images/default-user.jpg";
 
+// COMPONENTS
+import UserDropdown from "./UserDropdown";
+
 const UserLinks = (props) => {
   const { pendingFriendRequests } = useSelector((state) => state.auth);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleShowDropdown = (e) => {
+    e.preventDefault();
+    setShowDropdown(!showDropdown);
+  };
 
   return (
     <div className={`${classes.container}`}>
@@ -32,10 +41,14 @@ const UserLinks = (props) => {
           icon={FaUserFriends}
           isActive={false}
         />
-        {/* <SingleLink path={""} icon={TbMessage} isActive={false} /> */}
-        <div className={classes.user}>
+        <div className={classes.user} onClick={handleShowDropdown}>
           <img alt="user" src={defaultUser}></img>
         </div>
+        <UserDropdown
+          showDropdown={showDropdown}
+          setShowDropdown={setShowDropdown}
+          theme={props.theme}
+        />
       </div>
     </div>
   );

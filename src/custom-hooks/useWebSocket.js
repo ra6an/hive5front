@@ -10,10 +10,7 @@ const useWebSocket = (props) => {
 
   useEffect(() => {
     if (isAuthenticated && token && user?.id) {
-      console.log("Connecting to WS..." + " CUSTOM HOOK!");
       connectSocket(user.id, (msg) => {
-        // const data = msg.data;
-        console.log(msg);
         if (msg.wsType === "NOTIFICATION") {
           if (msg.data.type === "FRIEND_REQUEST_ACCEPTED") {
             dispatch(authActions.addFriends({ data: msg.friendRequestData }));

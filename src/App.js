@@ -12,6 +12,7 @@ import SingleUser from "./pages/SingleUser";
 import FriendRequests from "./pages/FriendRequests";
 import Notifications from "./pages/Notifications";
 import Comment from "./pages/Comment";
+import Settings from "./pages/Settings";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -27,53 +28,65 @@ import useNotificationHook from "./custom-hooks/useNotificationHook";
 import useWebSocket from "./custom-hooks/useWebSocket";
 
 function App() {
-  const { isAuthenticated, user, token } = useInitial();
-  const { posts, fetchExplore, fetchHome } = usePostsHook();
+  const { isAuthenticated, token, user, curTheme, handleThemeChange } =
+    useInitial();
+  const { fetchExplore, fetchHome } = usePostsHook();
   const notificationsHook = useNotificationHook();
   const _useWebSocket = useWebSocket();
-  console.log(posts);
+
+  const checkAuth = (COMPONENT) => {
+    return isAuthenticated && token && Object.keys(user).length > 0 ? (
+      COMPONENT
+    ) : (
+      <Auth isAuthenticated={isAuthenticated} />
+    );
+  };
+
   return (
-    <div className={`dark`}>
+    <div className={curTheme === "light" ? `light` : `dark`}>
       <div className={`background app text`}>
-        {isAuthenticated && <Header notificationsHook={notificationsHook} />}
+        {isAuthenticated && (
+          <Header
+            notificationsHook={notificationsHook}
+            theme={{ changeTheme: handleThemeChange, theme: curTheme }}
+          />
+        )}
         {isAuthenticated && <FriendsOvelay />}
         <Routes>
-          {!isAuthenticated ? (
-            <Route
-              path="*"
-              element={<Auth isAuthenticated={isAuthenticated} />}
-            />
-          ) : (
-            <>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home fetchHome={fetchHome} />} />
-              <Route
-                path="/auth/*"
-                element={<Auth isAuthenticated={isAuthenticated} />}
-              />
-              <Route path="/friend-requests" element={<FriendRequests />} />
-              <Route
-                path="/notifications"
-                element={
-                  <Notifications notificationsHook={notificationsHook} />
-                }
-              />
-              <Route
-                path="/explore"
-                element={<Explore fetchExplore={fetchExplore} />}
-              />
-              <Route path="/comment/:commentId" element={<Comment />} />
-              <Route
-                path="/post/:postId"
-                element={<SinglePost token={token} />}
-              />
-              <Route
-                path="/user/:username"
-                element={<SingleUser token={token} />}
-              />
-              <Route path="*" element={<Navigate to="/" />} />
-            </>
-          )}
+          <Route path="/" element={checkAuth(<Home />)} />
+          <Route
+            path="/home"
+            element={checkAuth(<Home fetchHome={fetchHome} />)}
+          />
+          <Route
+            path="/auth/*"
+            element={<Auth isAuthenticated={isAuthenticated} />}
+          />
+          <Route path="/settings" element={checkAuth(<Settings />)} />
+          <Route
+            path="/friend-requests"
+            element={checkAuth(<FriendRequests />)}
+          />
+          <Route
+            path="/notifications"
+            element={checkAuth(
+              <Notifications notificationsHook={notificationsHook} />
+            )}
+          />
+          <Route
+            path="/explore"
+            element={checkAuth(<Explore fetchExplore={fetchExplore} />)}
+          />
+          <Route path="/comment/:commentId" element={<Comment />} />
+          <Route
+            path="/post/:postId"
+            element={checkAuth(<SinglePost token={token} />)}
+          />
+          <Route
+            path="/user/:username"
+            element={checkAuth(<SingleUser token={token} />)}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </div>

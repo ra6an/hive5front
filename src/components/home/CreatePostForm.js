@@ -23,6 +23,7 @@ const CreatePostForm = (props) => {
         </div>
         <textarea
           className={`background text`}
+          placeholder="Share what's on your mind today..."
           spellCheck={false}
           onChange={handleContentInput}
           value={contentInput}

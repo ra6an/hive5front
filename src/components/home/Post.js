@@ -34,7 +34,7 @@ const Post = (props) => {
   };
 
   return (
-    <div className={`${classes.container} post`} id={props.data.id}>
+    <div className={`${classes.container} post pop-fade-in`} id={props.data.id}>
       <PostHeader
         user={props.data?.user}
         createdAt={props.data?.createdAt}

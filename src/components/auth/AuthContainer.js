@@ -25,7 +25,7 @@ const AuthContainer = (props) => {
   }, [location.pathname, navigate]);
 
   return (
-    <div className={classes.container}>
+    <div className={`fade-in ${classes.container}`}>
       {location.pathname === "/auth/signup" && <Signup />}
       {location.pathname === "/auth/signin" && <Signin />}
     </div>

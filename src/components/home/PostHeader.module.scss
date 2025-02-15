@@ -20,6 +20,7 @@
   }
 
   .user {
+    flex: 1;
     @include flexRow;
     gap: 1rem;
 
@@ -37,18 +38,24 @@
 
     .details {
       @include flexColumn;
+      align-self: stretch;
+      flex: 1;
       gap: 0.2rem;
       align-items: flex-start;
 
       .name {
         text-decoration: none;
+        width: 100%;
+        text-align: left;
       }
 
       .user__details {
         @include flexRow;
+        align-self: stretch;
         gap: 2rem;
 
         .follow {
+          margin-left: auto;
           border-radius: 0.4rem;
           @include flexRow;
           padding: 0.1rem 1rem;

@@ -20,7 +20,6 @@ const useNotificationHook = (props) => {
   }, [notifications]);
 
   const highlightComment = (highlightComment, highlightedParentComment) => {
-    console.log(highlightComment, highlightedParentComment, "🎉");
     dispatch(postActions.setHighlightComment({ value: highlightComment }));
     dispatch(
       postActions.setHighlightedParentComment({

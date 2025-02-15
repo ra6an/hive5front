@@ -157,34 +157,35 @@ export const getMyData = (token) => {
       const response = await axios(axiosOptions);
 
       if (response.status === 200) {
-        dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
-        dispatch(
-          authSlice.actions.setPendingFriendRequest({
-            data: response.data.data.initialData.pendingFriendRequests,
-          })
-        );
-        dispatch(
-          authSlice.actions.setFriends({
-            data: response.data.data.initialData.friends,
-          })
-        );
-        dispatch(
-          authSlice.actions.setSentFriendRequests({
-            data: response.data.data.initialData.sentFriendRequests,
-          })
-        );
-        dispatch(
-          authSlice.actions.setNotifications({
-            data: response.data.data.initialData.notifications,
-          })
-        );
-        dispatch(
-          authSlice.actions.setMessages({
-            data: response.data.data.initialData.messages,
-          })
-        );
-        dispatch(authSlice.actions.setAuth({ value: true }));
-        dispatch(authSlice.actions.setToken({ value: token }));
+        handleInitialData(dispatch, response, token);
+        // dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
+        // dispatch(
+        //   authSlice.actions.setPendingFriendRequest({
+        //     data: response.data.data.initialData.pendingFriendRequests,
+        //   })
+        // );
+        // dispatch(
+        //   authSlice.actions.setFriends({
+        //     data: response.data.data.initialData.friends,
+        //   })
+        // );
+        // dispatch(
+        //   authSlice.actions.setSentFriendRequests({
+        //     data: response.data.data.initialData.sentFriendRequests,
+        //   })
+        // );
+        // dispatch(
+        //   authSlice.actions.setNotifications({
+        //     data: response.data.data.initialData.notifications,
+        //   })
+        // );
+        // dispatch(
+        //   authSlice.actions.setMessages({
+        //     data: response.data.data.initialData.messages,
+        //   })
+        // );
+        // dispatch(authSlice.actions.setAuth({ value: true }));
+        // dispatch(authSlice.actions.setToken({ value: token }));
       }
     } catch (err) {
       console.log(err);
@@ -271,6 +272,62 @@ export const handleSeenNotification = (token, userInputs) => {
       console.log(err);
     }
   };
+};
+
+export const updateMe = (token, userInputs) => {
+  return async (dispatch) => {
+    try {
+      const axiosOptions = {
+        method: "PATCH",
+        url: `${URL}/users/me`,
+        data: userInputs,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios(axiosOptions);
+
+      if (response.status === 200) {
+        console.log(response);
+        handleInitialData(dispatch, response, response.data.data.token);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+const handleInitialData = (dispatch, response, token) => {
+  dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
+  dispatch(
+    authSlice.actions.setPendingFriendRequest({
+      data: response.data.data.initialData.pendingFriendRequests,
+    })
+  );
+  dispatch(
+    authSlice.actions.setFriends({
+      data: response.data.data.initialData.friends,
+    })
+  );
+  dispatch(
+    authSlice.actions.setSentFriendRequests({
+      data: response.data.data.initialData.sentFriendRequests,
+    })
+  );
+  dispatch(
+    authSlice.actions.setNotifications({
+      data: response.data.data.initialData.notifications,
+    })
+  );
+  dispatch(
+    authSlice.actions.setMessages({
+      data: response.data.data.initialData.messages,
+    })
+  );
+  dispatch(authSlice.actions.setAuth({ value: true }));
+  dispatch(authSlice.actions.setToken({ value: token }));
 };
 
 export const { logout } = authSlice.actions;

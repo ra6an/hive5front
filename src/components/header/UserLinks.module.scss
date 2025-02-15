@@ -5,10 +5,13 @@
   width: 20rem;
   @include flexRow;
   justify-content: flex-end;
+  position: relative;
+  z-index: 100;
 
   .inner__box {
     @include flexRow;
     gap: 1rem;
+    // position: relative;
   }
 
   .user {
@@ -17,6 +20,7 @@
     width: 4.2rem;
     border-radius: 20rem;
     overflow: hidden;
+    cursor: pointer;
 
     img {
       height: 100%;

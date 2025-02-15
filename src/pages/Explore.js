@@ -11,7 +11,7 @@ import HomeContainer from "../components/home/HomeContainer";
 
 const Explore = (props) => {
   const dispatch = useDispatch();
-  console.log(props.fetchExplore?.get);
+
   useEffect(() => {
     if (!props.fetchExplore?.set) return;
     props.fetchExplore?.set(true);

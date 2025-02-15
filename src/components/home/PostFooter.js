@@ -24,6 +24,16 @@ const PostFooter = (props) => {
     }
   };
 
+  const handleCopyPostURL = (e) => {
+    const POST_URL = `${process.env.REACT_APP_BASE_URL}/post/${props.data.id}`;
+    navigator.clipboard
+      .writeText(POST_URL)
+      .then(() => {
+        // TODO --> DODATI MSG DA JE URL KOPIRAN
+      })
+      .catch((err) => console.error("Something went wrong...: ", err));
+  };
+
   return (
     <div className={`${classes.container}`}>
       <div className={`links ${classes["btn"]}`} onClick={handleLikePost}>
@@ -51,7 +61,7 @@ const PostFooter = (props) => {
           </p>
         )}
       </div>
-      <div className={`links ${classes["btn"]}`}>
+      <div className={`links ${classes["btn"]}`} onClick={handleCopyPostURL}>
         <FiSend className={classes.icon} />
       </div>
     </div>

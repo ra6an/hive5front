@@ -14,6 +14,17 @@ import { FaRegHeart, FaRegComment, FaForumbee } from "react-icons/fa";
 const SingleNotification = (props) => {
   const [urlPath, setUrlPath] = useState("");
   const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShow(true);
+    }, props.timeout * 10);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
 
   const generateVariables = useCallback((data) => {
     const actionMap = {
@@ -33,27 +44,6 @@ const SingleNotification = (props) => {
       setMessage(`User ${data.sender.username} accepted your friend request.`);
     }
   }, []);
-
-  // const generateVariables = useCallback((data) => {
-  //   if (data.type === "COMMENT" || data.type === "LIKE") {
-  //     if (data.targetType === "POST") {
-  //       setUrlPath(`/post/${data.targetId}`);
-  //       let _action = "";
-  //       if (data.type === "COMMENT") _action = "commented";
-  //       if (data.type === "LIKE") _action = "liked";
-  //       setMessage(`User ${data.sender.username} ${_action} your post.`);
-  //     } else if (data.targetType === "COMMENT") {
-  //       setUrlPath(`/comment/${data.targetId}`);
-  //       let _action = "";
-  //       if (data.type === "COMMENT") _action = "responded to";
-  //       if (data.type === "LIKE") _action = "liked";
-  //       setMessage(`User ${data.sender.username} ${_action} your comment.`);
-  //     }
-  //   } else if (data.type === "FRIEND_REQUEST_ACCEPTED") {
-  //     setUrlPath(`/users/${data.sender.username}`);
-  //     setMessage(`User ${data.sender.username} accepted your friend request.`);
-  //   }
-  // }, []);
 
   const highlightComment = (e) => {
     if (props.data.type === "COMMENT") {
@@ -79,7 +69,8 @@ const SingleNotification = (props) => {
     <Link
       to={urlPath}
       onClick={highlightComment}
-      className={`${classes.container}`}
+      className={`${show ? "fade-in-quick" : ""} ${classes.container}`}
+      style={show ? { opacity: "1" } : {}}
     >
       <div className={`text notification ${classes.content}`}>
         {props.data.type === "FRIEND_REQUEST_ACCEPTED" && (

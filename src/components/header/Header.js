@@ -12,7 +12,10 @@ const Header = (props) => {
     <header className={`box-shadow ${classes.container}`}>
       <Logo />
       <Links />
-      <UserLinks notificationsHook={props.notificationsHook} />
+      <UserLinks
+        notificationsHook={props.notificationsHook}
+        theme={props.theme}
+      />
     </header>
   );
 };

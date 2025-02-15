@@ -1,0 +1,36 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  width: 80rem;
+  min-height: 60rem;
+  @include flexRow;
+  gap: 1rem;
+
+  .links {
+    @include flexColumn;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 26rem;
+    align-self: flex-start;
+    // align-self: stretch;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    .single__link {
+      @include flexRow;
+      height: 4rem;
+      border-radius: 0.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .form {
+    flex: 1;
+    align-self: stretch;
+    border-radius: 1rem;
+    background-color: aqua;
+  }
+}

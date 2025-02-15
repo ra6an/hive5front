@@ -13,7 +13,7 @@ export const connectSocket = (_userId, onMessageReceived) => {
       userId: _userId,
     },
     debug: (str) => {
-      console.log("DEBUG: " + str);
+      // console.log("DEBUG: " + str);
     },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
@@ -23,8 +23,8 @@ export const connectSocket = (_userId, onMessageReceived) => {
   stompClient.activate();
 
   stompClient.onConnect = (frame) => {
-    console.log("CONNECTED...: " + JSON.stringify(frame.headers));
-    const sessionId = frame.headers["session"];
+    // console.log("CONNECTED...: " + JSON.stringify(frame.headers));
+    // const sessionId = frame.headers["session"];
 
     stompClient.subscribe(`/topic/user-events/${_userId}`, (msg) => {
       if (msg.body) {
@@ -37,18 +37,18 @@ export const connectSocket = (_userId, onMessageReceived) => {
   setTimeout(() => {}, 1000);
 
   stompClient.onStompError = (frame) => {
-    console.error(`STOMP error: ${frame}`);
+    // console.error(`STOMP error: ${frame}`);
   };
 
   stompClient.onDisconnect = () => {
-    console.log("Disconnected from WebSocked...");
+    // console.log("Disconnected from WebSocked...");
   };
 };
 
 export const disconnectSocket = () => {
   if (stompClient && stompClient.connected) {
     stompClient.onDisconnect(() => {
-      console.log("Disconnected from WebSocket...");
+      // console.log("Disconnected from WebSocket...");
     });
   }
 };
