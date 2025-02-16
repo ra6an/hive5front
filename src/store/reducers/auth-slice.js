@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+
+// HANDLE ERRORS
+import handleError from "../../utils/handle-error";
+
+// FETCH HANDLER
+import fetchData from "../../utils/fetch-data";
 
 const URL = `${process.env.REACT_APP_URL}`;
 
 const initialAuthState = {
+  authError: "",
+  authSuccess: "",
   user: {},
   pendingFriendRequests: [],
   sentFriendRequests: [],
@@ -18,6 +25,12 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initialAuthState,
   reducers: {
+    setAuthError(state, action) {
+      state.authError = action.payload.value;
+    },
+    setAuthSuccess(state, action) {
+      state.authSuccess = action.payload.value;
+    },
     setUser(state, action) {
       state.user = action.payload.data;
     },
@@ -93,14 +106,8 @@ const authSlice = createSlice({
 export const signup = (userInput, navigate) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/auth/signup`,
-        data: userInput,
-        headers: {},
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/auth/signup`;
+      const response = await fetchData("POST", urlPath, userInput, null);
 
       if (response.status === 200) {
         dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
@@ -112,6 +119,7 @@ export const signup = (userInput, navigate) => {
       }
     } catch (err) {
       console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -119,14 +127,8 @@ export const signup = (userInput, navigate) => {
 export const signin = (userInput, navigate) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/auth/signin`,
-        data: userInput,
-        headers: {},
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/auth/signin`;
+      const response = await fetchData("POST", urlPath, userInput, null);
 
       if (response.status === 200) {
         dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
@@ -137,7 +139,7 @@ export const signin = (userInput, navigate) => {
         navigate("/home");
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -145,50 +147,14 @@ export const signin = (userInput, navigate) => {
 export const getMyData = (token) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "GET",
-        url: `${URL}/users/me`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/users/me`;
+      const response = await fetchData("GET", urlPath, {}, token);
 
       if (response.status === 200) {
         handleInitialData(dispatch, response, token);
-        // dispatch(authSlice.actions.setUser({ data: response.data.data.user }));
-        // dispatch(
-        //   authSlice.actions.setPendingFriendRequest({
-        //     data: response.data.data.initialData.pendingFriendRequests,
-        //   })
-        // );
-        // dispatch(
-        //   authSlice.actions.setFriends({
-        //     data: response.data.data.initialData.friends,
-        //   })
-        // );
-        // dispatch(
-        //   authSlice.actions.setSentFriendRequests({
-        //     data: response.data.data.initialData.sentFriendRequests,
-        //   })
-        // );
-        // dispatch(
-        //   authSlice.actions.setNotifications({
-        //     data: response.data.data.initialData.notifications,
-        //   })
-        // );
-        // dispatch(
-        //   authSlice.actions.setMessages({
-        //     data: response.data.data.initialData.messages,
-        //   })
-        // );
-        // dispatch(authSlice.actions.setAuth({ value: true }));
-        // dispatch(authSlice.actions.setToken({ value: token }));
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -196,16 +162,8 @@ export const getMyData = (token) => {
 export const createFriendRequest = (token, userInputs) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/friend-requests/send/${userInputs.userId}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/friend-requests/send/${userInputs.userId}`;
+      const response = await fetchData("POST", urlPath, null, token);
 
       if (response.status === 200) {
         dispatch(
@@ -215,7 +173,7 @@ export const createFriendRequest = (token, userInputs) => {
         );
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -223,16 +181,8 @@ export const createFriendRequest = (token, userInputs) => {
 export const handleFriendRequest = (token, userInputs) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "PATCH",
-        url: `${URL}/friend-requests/${userInputs.friendRequestId}/${userInputs.statusType}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/friend-requests/${userInputs.friendRequestId}/${userInputs.statusType}`;
+      const response = await fetchData("PATCH", urlPath, null, token);
 
       if (response.status === 200) {
         dispatch(
@@ -242,7 +192,7 @@ export const handleFriendRequest = (token, userInputs) => {
         );
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -250,16 +200,8 @@ export const handleFriendRequest = (token, userInputs) => {
 export const handleSeenNotification = (token, userInputs) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "PATCH",
-        url: `${URL}/notifications/${userInputs.notificationId}/seen`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/notifications/${userInputs.notificationId}/seen`;
+      const response = await fetchData("PATCH", urlPath, null, token);
 
       if (response.status === 200) {
         dispatch(
@@ -269,7 +211,7 @@ export const handleSeenNotification = (token, userInputs) => {
         );
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };
@@ -277,24 +219,14 @@ export const handleSeenNotification = (token, userInputs) => {
 export const updateMe = (token, userInputs) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "PATCH",
-        url: `${URL}/users/me`,
-        data: userInputs,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/users/me`;
+      const response = await fetchData("PATCH", urlPath, userInputs, token);
 
       if (response.status === 200) {
-        console.log(response);
         handleInitialData(dispatch, response, response.data.data.token);
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, authSlice.actions.setAuthError);
     }
   };
 };

@@ -10,7 +10,7 @@ const FriendReqContainer = (props) => {
   return (
     <div className={classes.container}>
       <PendingFriendReq />
-      <RandomUserProfiles />
+      <RandomUserProfiles data={props.data} />
     </div>
   );
 };

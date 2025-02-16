@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 import classes from "./SingleFriendRequest.module.scss";
@@ -7,39 +6,21 @@ import classes from "./SingleFriendRequest.module.scss";
 // IMAGES
 import defaultImg from "../../images/default-user.jpg";
 
-// STORE
-import { handleFriendRequest } from "../../store/reducers/auth-slice";
-
 // UTILS
 import formatDateTime from "../../utils/date-formater";
 
+// CUSTOM HOOKS
+import useFriendRequestsHook from "../../custom-hooks/useFriendRequestsHook";
+
 const SingleFriendRequest = (props) => {
-  const dispatch = useDispatch();
-  const { token, isAuthenticated } = useSelector((state) => state.auth);
+  const { handleAcceptFriendRequest, handleRejectFriendRequest } =
+    useFriendRequestsHook({
+      userId: null,
+      friendRequestId: props.data.id,
+    });
 
-  const handleAcceptFriendRequest = (e) => {
-    e.preventDefault();
-    if (!token || !isAuthenticated) return;
+  console.log(props.data);
 
-    dispatch(
-      handleFriendRequest(token, {
-        friendRequestId: props.data.id,
-        statusType: "accept",
-      })
-    );
-  };
-
-  const handleRejectFriendRequest = (e) => {
-    e.preventDefault();
-    if (!token || !isAuthenticated) return;
-
-    dispatch(
-      handleFriendRequest(token, {
-        friendRequestId: props.data.id,
-        statusType: "reject",
-      })
-    );
-  };
   return (
     <>
       {Object.keys(props.data).length > 0 && (

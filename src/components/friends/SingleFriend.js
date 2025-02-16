@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 import classes from "./SingleFriend.module.scss";
 
@@ -20,14 +21,17 @@ const SingleFriend = (props) => {
   }, [props.data, user]);
 
   return (
-    <div className={`background text ${classes.container}`}>
+    <Link
+      to={`/user/${userData.username}`}
+      className={`background text ${classes.container}`}
+    >
       <div className={classes["image__box"]}>
         <img src={userData.image || defaultImg} alt={userData.username} />
       </div>
       <div className={classes["user__details"]}>
         <p>{userData.username}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -3,9 +3,24 @@ import { Link } from "react-router";
 
 import classes from "./UserCard.module.scss";
 
+// HOOKS
+import useFriendRequestsHook from "../../custom-hooks/useFriendRequestsHook";
+
 import defaultImg from "../../images/default-user.jpg";
 
 const UserCard = (props) => {
+  const {
+    handleSendFriendRequest,
+    handleAcceptFriendRequest,
+    handleRejectFriendRequest,
+    isPending,
+    isSent,
+    areFriends,
+  } = useFriendRequestsHook({
+    friendRequestId: null,
+    userId: props.data?.id,
+  });
+
   return (
     <>
       {Object.keys(props.data).length > 0 && (
@@ -25,9 +40,35 @@ const UserCard = (props) => {
                 {props.data?.username}
               </Link>
             </div>
-            <div className={`${classes["btns"]}`}>
-              <div className={`primary-bg ${classes["btn"]}`}>Follow</div>
-            </div>
+            {!areFriends && (
+              <div className={`${classes["btns"]}`}>
+                {!isPending && !isSent && (
+                  <div
+                    className={`primary-bg ${classes["btn"]}`}
+                    onClick={handleSendFriendRequest}
+                  >
+                    Follow
+                  </div>
+                )}
+                {isPending && (
+                  <div
+                    className={`primary-bg ${classes["btn"]}`}
+                    onClick={handleAcceptFriendRequest}
+                  >
+                    Accept
+                  </div>
+                )}
+                {isPending && (
+                  <div
+                    className={`primary-bg ${classes["btn"]}`}
+                    onClick={handleRejectFriendRequest}
+                  >
+                    Reject
+                  </div>
+                )}
+                {isSent && <div>Pending...</div>}
+              </div>
+            )}
           </div>
         </div>
       )}

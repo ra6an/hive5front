@@ -9,6 +9,7 @@ import { FiSend } from "react-icons/fi";
 
 // STORE
 import { like, dislike } from "../../store/reducers/post-slice";
+import { postActions } from "../../store/redux-store";
 
 const PostFooter = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const PostFooter = (props) => {
       .writeText(POST_URL)
       .then(() => {
         // TODO --> DODATI MSG DA JE URL KOPIRAN
+        dispatch(
+          postActions.setPostSuccess({ value: `Post URL is copied...` })
+        );
       })
       .catch((err) => console.error("Something went wrong...: ", err));
   };

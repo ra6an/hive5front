@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+
+// ERROR HANDLER & SUCCESS
+import handleError from "../../utils/handle-error";
+import handleSuccess from "../../utils/handle-success";
+
+import fetchData from "../../utils/fetch-data";
 
 const URL = `${process.env.REACT_APP_URL}`;
 
 const initialPostState = {
+  postError: "",
+  postSuccess: "",
   posts: [],
   post: {},
   highlightComment: 0,
@@ -16,6 +23,12 @@ const postSlice = createSlice({
   name: "post",
   initialState: initialPostState,
   reducers: {
+    setPostError(state, action) {
+      state.postError = action.payload.value;
+    },
+    setPostSuccess(state, action) {
+      state.postSuccess = action.payload.value;
+    },
     setPosts(state, action) {
       state.posts = action.payload.data;
     },
@@ -179,21 +192,15 @@ export const getPosts = (token, userInputs) => {
       let URL_EXTENSION = `user/${userInputs.user}`;
 
       if (userInputs.user) {
+        // Ukoliko su postovi od usera
         URL_EXTENSION = `user/${userInputs.user}`;
       } else {
+        // Globalni postovi - home/explore
         URL_EXTENSION = `${userInputs.extension}`;
       }
 
-      const axiosOptions = {
-        method: "GET",
-        url: `${URL}/posts/${URL_EXTENSION}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/posts/${URL_EXTENSION}`;
+      const response = await fetchData("GET", urlPath, {}, token);
 
       if (response.status === 200) {
         dispatch(postSlice.actions.setPosts({ data: response.data.data.data }));
@@ -204,7 +211,7 @@ export const getPosts = (token, userInputs) => {
         );
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -212,22 +219,14 @@ export const getPosts = (token, userInputs) => {
 export const getPostsById = (token, postId) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "GET",
-        url: `${URL}/posts/${postId}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/posts/${postId}`;
+      const response = await fetchData("GET", urlPath, {}, token);
 
       if (response.status === 200) {
         dispatch(postSlice.actions.setPost({ data: response.data.data.data }));
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -235,22 +234,14 @@ export const getPostsById = (token, postId) => {
 export const getPostByCommentId = (token, commentId) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "GET",
-        url: `${URL}/comments/${commentId}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/comments/${commentId}`;
+      const response = await fetchData("GET", urlPath, {}, token);
 
       if (response.status === 200) {
         dispatch(postSlice.actions.setPost({ data: response.data.data.data }));
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -258,26 +249,22 @@ export const getPostByCommentId = (token, commentId) => {
 export const createNewPost = (token, userInputs, fn) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/posts/create`,
-        data: userInputs,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/posts/create`;
+      const response = await fetchData("POST", urlPath, userInputs, token);
 
       if (response.status === 200) {
         dispatch(
           postSlice.actions.addNewPostToPosts({ data: response.data.data.data })
         );
+        handleSuccess(
+          "Post has been created successfully.",
+          dispatch,
+          postSlice.actions.setPostSuccess
+        );
         fn();
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -285,17 +272,8 @@ export const createNewPost = (token, userInputs, fn) => {
 export const createComment = (token, userInputs, fn) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/comments/`,
-        data: userInputs,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/comments/`;
+      const response = await fetchData("POST", urlPath, userInputs, token);
 
       if (response.status === 200) {
         dispatch(
@@ -305,7 +283,7 @@ export const createComment = (token, userInputs, fn) => {
         fn();
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -313,16 +291,8 @@ export const createComment = (token, userInputs, fn) => {
 export const like = (token, userInputs, fn = () => {}) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/likes/${userInputs.type}/${userInputs.id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/likes/${userInputs.type}/${userInputs.id}`;
+      const response = await fetchData("POST", urlPath, {}, token);
 
       if (response.status === 200) {
         if (userInputs.type === "post") {
@@ -343,7 +313,7 @@ export const like = (token, userInputs, fn = () => {}) => {
         fn();
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };
@@ -351,16 +321,8 @@ export const like = (token, userInputs, fn = () => {}) => {
 export const dislike = (token, userInputs, fn = () => {}) => {
   return async (dispatch) => {
     try {
-      const axiosOptions = {
-        method: "POST",
-        url: `${URL}/likes/dislike/${userInputs.type}/${userInputs.id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios(axiosOptions);
+      const urlPath = `${URL}/likes/dislike/${userInputs.type}/${userInputs.id}`;
+      const response = await fetchData("POST", urlPath, {}, token);
 
       if (response.status === 200) {
         if (userInputs.type === "post") {
@@ -387,7 +349,7 @@ export const dislike = (token, userInputs, fn = () => {}) => {
         fn();
       }
     } catch (err) {
-      console.log(err);
+      handleError(err, dispatch, postSlice.actions.setPostError);
     }
   };
 };

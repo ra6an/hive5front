@@ -13,16 +13,19 @@ import FriendRequests from "./pages/FriendRequests";
 import Notifications from "./pages/Notifications";
 import Comment from "./pages/Comment";
 import Settings from "./pages/Settings";
+import Users from "./pages/Users";
 
 // COMPONENTS
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import FriendsOvelay from "./components/friends/FriendsOverlay";
+import { ToastContainer } from "react-toastify";
 
 // HOOKS
 import useInitial from "./custom-hooks/useInitial";
 import usePostsHook from "./custom-hooks/usePostsHook";
 import useNotificationHook from "./custom-hooks/useNotificationHook";
+import useToastNotification from "./custom-hooks/useToastNotification";
 
 // SOCKET
 import useWebSocket from "./custom-hooks/useWebSocket";
@@ -33,6 +36,7 @@ function App() {
   const { fetchExplore, fetchHome } = usePostsHook();
   const notificationsHook = useNotificationHook();
   const _useWebSocket = useWebSocket();
+  const _toast = useToastNotification();
 
   const checkAuth = (COMPONENT) => {
     return isAuthenticated && token && Object.keys(user).length > 0 ? (
@@ -45,6 +49,7 @@ function App() {
   return (
     <div className={curTheme === "light" ? `light` : `dark`}>
       <div className={`background app text`}>
+        <ToastContainer theme={curTheme === "light" ? "dark" : "light"} />
         {isAuthenticated && (
           <Header
             notificationsHook={notificationsHook}
@@ -58,6 +63,7 @@ function App() {
             path="/home"
             element={checkAuth(<Home fetchHome={fetchHome} />)}
           />
+          <Route path="/users" element={checkAuth(<Users />)} />
           <Route
             path="/auth/*"
             element={<Auth isAuthenticated={isAuthenticated} />}

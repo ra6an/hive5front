@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import classes from "./FriendRequests.module.scss";
+import classes from "./Users.module.scss";
 
 // COMPONENTS
-import FriendReqContainer from "../components/friend-requests/FriendReqContainer";
+import UsersContainer from "../components/users/UsersContainer";
 
 // STORE
 import { getNonFriendUsers } from "../store/reducers/user-slice";
 import { userActions } from "../store/redux-store";
 
-const FriendRequests = (props) => {
+const Users = (props) => {
   const dispatch = useDispatch();
+  const { isAuthenticated, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const { token, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!token || !isAuthenticated) return;
@@ -23,13 +23,15 @@ const FriendRequests = (props) => {
     return () => {
       dispatch(userActions.setUsers({ data: [] }));
     };
-  }, [dispatch, token, isAuthenticated]);
+  }, [token, isAuthenticated, dispatch]);
 
   return (
-    <div className={classes.container}>
-      <FriendReqContainer data={users} />
+    <div className={`${classes.container}`}>
+      <div className={`${classes["users__container"]}`}>
+        <UsersContainer data={users} />
+      </div>
     </div>
   );
 };
 
-export default FriendRequests;
+export default Users;

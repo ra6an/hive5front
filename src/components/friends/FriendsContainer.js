@@ -5,6 +5,7 @@ import classes from "./FriendsContainer.module.scss";
 
 // COMPONENTS
 import SingleFriend from "./SingleFriend";
+import FindFriends from "./FindFriends";
 
 const FriendsContainer = (props) => {
   const [friendsRenderer, setFriendsRenderer] = useState([]);
@@ -32,7 +33,11 @@ const FriendsContainer = (props) => {
         className={`box-shadow post ${classes["friends__container"]}`}
         style={showFriendsList ? {} : { transform: `translateY(110%)` }}
       >
-        {friendsRenderer}
+        {friendsRenderer.length > 0 ? (
+          friendsRenderer
+        ) : (
+          <FindFriends setShowFriendsList={setShowFriendsList} />
+        )}
       </div>
       <div
         className={`primary-bg ${classes["btn"]}`}

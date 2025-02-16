@@ -1,0 +1,23 @@
+//
+@use "../../styles/abstract/mixins" as *;
+
+.container {
+  flex: 1;
+  @include flexColumn;
+  gap: 1rem;
+
+  p {
+    font-weight: 300;
+  }
+
+  .btn {
+    @include flexRow;
+    text-decoration: none;
+    font-size: 2.4rem;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+}

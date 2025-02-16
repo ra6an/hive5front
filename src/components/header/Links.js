@@ -18,7 +18,7 @@ const Links = (props) => {
       <div className={classes["inner__container"]}>
         <SingleLink icon={MdOutlineExplore} isActive={false} path="/explore" />
         <SingleLink icon={MdOutlineHome} isActive={true} path="/home" />
-        <SingleLink icon={MdOutlineSearch} isActive={false} />
+        <SingleLink icon={MdOutlineSearch} isActive={false} path="/users" />
       </div>
     </div>
   );
