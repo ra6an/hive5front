@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 import "./styles/main.scss";
 
@@ -20,6 +14,7 @@ import Notifications from "./pages/Notifications";
 import Comment from "./pages/Comment";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
+import NotFound from "./pages/NotFound";
 
 // COMPONENTS
 import Header from "./components/header/Header";
@@ -107,7 +102,7 @@ function App() {
             path="/user/:username"
             element={checkAuth(<SingleUser token={token} />)}
           />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>

@@ -1,0 +1,15 @@
+//
+@use "../styles/abstract/mixins" as *;
+
+.container {
+  padding: 2.4rem 0;
+  width: 100%;
+  flex: 1;
+  @include flexRow;
+  align-items: center;
+  margin-top: 6rem;
+
+  p {
+    font-size: 2rem;
+  }
+}
