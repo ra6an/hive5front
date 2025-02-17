@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 import "./styles/main.scss";
 
@@ -31,6 +31,8 @@ import useToastNotification from "./custom-hooks/useToastNotification";
 import useWebSocket from "./custom-hooks/useWebSocket";
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { isAuthenticated, token, user, curTheme, handleThemeChange } =
     useInitial();
   const { fetchExplore, fetchHome } = usePostsHook();
@@ -45,6 +47,13 @@ function App() {
       <Auth isAuthenticated={isAuthenticated} />
     );
   };
+
+  useEffect(() => {
+    if (!token || !isAuthenticated) return;
+    if (location.pathname === "" || location.pathname === "/") {
+      navigate("/home");
+    }
+  }, [location, token, isAuthenticated, navigate]);
 
   return (
     <div className={curTheme === "light" ? `light` : `dark`}>
