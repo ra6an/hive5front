@@ -57,7 +57,7 @@ function App() {
   useEffect(() => {
     if (!token || !isAuthenticated) return;
     if (location.pathname === "" || location.pathname === "/") {
-      navigate("/home");
+      navigate("/explore");
     }
   }, [location, token, isAuthenticated, navigate]);
 
