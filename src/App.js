@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 import "./styles/main.scss";
 
